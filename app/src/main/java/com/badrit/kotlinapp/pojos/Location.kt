@@ -1,9 +1,9 @@
-package com.badrit.kotlinapp.model
+package com.badrit.kotlinapp.pojos
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Location {
+data class Location (
 
     //    @SerializedName("postcode")
     //    @Expose
@@ -11,10 +11,10 @@ class Location {
 
     @SerializedName("street")
     @Expose
-    var street: String? = null
+    var street: String? = null ,
     @SerializedName("city")
     @Expose
-    var city: String? = null
+    var city: String? = null ,
     @SerializedName("state")
     @Expose
     var state: String? = null
@@ -27,4 +27,4 @@ class Location {
     //        this.postcode = postcode;
     //    }
 
-}
+    )

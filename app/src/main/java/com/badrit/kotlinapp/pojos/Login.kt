@@ -1,27 +1,27 @@
-package com.badrit.kotlinapp.model
+package com.badrit.kotlinapp.pojos
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Login {
+data class Login (
 
     @SerializedName("username")
     @Expose
-    var username: String? = null
+    var username: String? = null ,
     @SerializedName("password")
     @Expose
-    var password: String? = null
+    var password: String? = null ,
     @SerializedName("salt")
     @Expose
-    var salt: String? = null
+    var salt: String? = null ,
     @SerializedName("md5")
     @Expose
-    var md5: String? = null
+    var md5: String? = null ,
     @SerializedName("sha1")
     @Expose
-    var sha1: String? = null
+    var sha1: String? = null ,
     @SerializedName("sha256")
     @Expose
     var sha256: String? = null
 
-}
+    )
