@@ -7,80 +7,60 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import com.badrit.kotlinapp.R
 import com.badrit.kotlinapp.adapter.MyAdapter
+import com.badrit.kotlinapp.pojos.Result
 import com.badrit.kotlinapp.presenters.HomePresenter
 import com.badrit.kotlinapp.views.HomeView
-import dagger.Inject
-import com.badrit.kotlinapp.dependencies.HomeModule
-
-
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() , HomeView {
 
-    @Inject
     private var mPresneter :HomePresenter? = null
     private var adapter: MyAdapter? = null
     private var recyclerView : RecyclerView? =  null
-    private var usersList:ArrayList<String> = ArrayList()
+    private var usersList: ArrayList<Result> = ArrayList()
+    private var linearLayoutManager: RecyclerView.LayoutManager? =  null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //  initializeArrayValues()
-        TODO("We will take about it tomorrow ")
-       // adapter?=MyAdapter(usersList,applicationContext)
-        var add : MyAdapter = MyAdapter(usersList, applicationContext)
-        injectComponent()
+        adapter = MyAdapter(usersList,applicationContext)
+        linearLayoutManager = LinearLayoutManager(this)
         readyToShow()
-        initializeRecycleView(add)
+        initializeRecycleView()
     }
 
-    private fun initializeArrayValues(){
-        usersList?.add("Douby")
-        usersList?.add("Bakr")
-        usersList?.add("Osama")
-        usersList?.add("Wezaa")
-        usersList?.add("Sherif")
-        usersList?.add("Karim")
-    }
-
-    fun injectComponent() {
-        DaggerHomeComponent
-                .builder()
-                .homeModule(HomeModule(this))
-                .build()
-                .inJect(this)
-    }
-
-    private fun initializeRecycleView(myAdapter: MyAdapter) {
-        recyclerView =  findViewById(R.id.recyclerView_RV) as RecyclerView
-        recyclerView?.layoutManager = LinearLayoutManager(this)
-        recyclerView?.adapter = myAdapter
+    private fun initializeRecycleView() {
+        recyclerView =  findViewById<RecyclerView>(R.id.recyclerView_RV) as RecyclerView
+        recyclerView?.layoutManager =  LinearLayoutManager(applicationContext)
+        recyclerView?.adapter = adapter
         recyclerView?.setHasFixedSize(true)
     }
 
     override fun showLoader() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         Log.i("Hello","Show Loader")
     }
 
     override fun hideLoader() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         Log.i("Hello","Hide Loader")
     }
 
     override fun readyToShow() {
         Log.i("Hello","Ready to show")
+        mPresneter = HomePresenter(this)
         mPresneter?.getUsersData()
     }
 
     override fun showMessage(message: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         Log.i("Hello","Show Message")
     }
 
-    override fun setUserList(users: ArrayList<String>) {
+    override fun setUserList(users: ArrayList<Result>) {
+//        for (i in 0..users.size - 1) {
+//            Log.i("Hello", users[i].email)
+//        }
         usersList?.clear()
         usersList?.addAll(users)
+        adapter?.notifyDataSetChanged()
     }
 }

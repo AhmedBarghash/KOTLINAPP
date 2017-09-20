@@ -1,37 +1,47 @@
 package com.badrit.kotlinapp.presenters
 
-import com.badrit.kotlinapp.data_manager.HomeInteractour
+import android.util.Log
+import com.badrit.kotlinapp.data_manager.HomeInteractor
+import com.badrit.kotlinapp.pojos.Result
+import com.badrit.kotlinapp.pojos.UsersResponse
 import com.badrit.kotlinapp.views.HomeView
 import com.badrit.kotlinapp.views.OnUsersListReceived
-import dagger.Inject
+import java.util.*
+
+//import dagger.Inject
 
 /**
  * Created by ahmed-osama on 17/09/17.
  */
 
-class HomePresenter :OnUsersListReceived{
+class HomePresenter : OnUsersListReceived {
 
 
-    private var mInteractour:HomeInteractour? = null
-    private var mView:HomeView?=null
-
-    @Inject constructor(homeView: HomeView, homeInteractour: HomeInteractour)
-    {
-        mView =  homeView
-        mInteractour =  homeInteractour
+    private var mView: HomeView? = null
+    private var mInteractour : HomeInteractor? = null
+    constructor(homeView: HomeView) {
+        mView = homeView
+        mInteractour = HomeInteractor()
     }
-    fun getUsersData(){
+
+    fun getUsersData() {
+        Log.i("Hello","get Users Data - Presenter")
+
         mView?.showLoader()
         mInteractour?.getUsers(this)
     }
 
-    override fun setUsersData(users: ArrayList<String>) {
-        mView?.setUserList(users)
+    override fun showMessage(message: Throwable) {
+        Log.i("Hello",message.toString())
+
+        mView?.showMessage(message.toString())
         mView?.hideLoader()
     }
 
-    override fun showMessage(message: String) {
-        mView?.showMessage(message)
+    override fun setUsersData(user: UsersResponse) {
+        Log.i("Hello","Data here")
+
+        mView?.setUserList(user.results as ArrayList<Result>)
         mView?.hideLoader()
     }
 }
