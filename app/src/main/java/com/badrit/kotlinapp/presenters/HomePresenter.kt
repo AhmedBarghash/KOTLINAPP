@@ -6,41 +6,39 @@ import com.badrit.kotlinapp.pojos.Result
 import com.badrit.kotlinapp.pojos.UsersResponse
 import com.badrit.kotlinapp.views.HomeView
 import com.badrit.kotlinapp.views.OnUsersListReceived
-import java.util.*
+import javax.inject.Inject
 
-//import dagger.Inject
 
 /**
  * Created by ahmed-osama on 17/09/17.
  */
 
 class HomePresenter : OnUsersListReceived {
+    var mView: HomeView? = null
 
+    var mInteractour: HomeInteractor? = null
 
-    private var mView: HomeView? = null
-    private var mInteractour : HomeInteractor? = null
-    constructor(homeView: HomeView) {
+    @Inject
+    constructor(homeView: HomeView,homeInteractor: HomeInteractor) {
         mView = homeView
-        mInteractour = HomeInteractor()
+        this.mInteractour =  homeInteractor
+
     }
 
     fun getUsersData() {
-        Log.i("Hello","get Users Data - Presenter")
-
+        Log.i("Hello", "get Users Data - Presenter")
         mView?.showLoader()
         mInteractour?.getUsers(this)
     }
 
     override fun showMessage(message: Throwable) {
-        Log.i("Hello",message.toString())
-
+        Log.i("Hello", message.toString())
         mView?.showMessage(message.toString())
         mView?.hideLoader()
     }
 
     override fun setUsersData(user: UsersResponse) {
-        Log.i("Hello","Data here")
-
+        Log.i("Hello", "Data here")
         mView?.setUserList(user.results as ArrayList<Result>)
         mView?.hideLoader()
     }
