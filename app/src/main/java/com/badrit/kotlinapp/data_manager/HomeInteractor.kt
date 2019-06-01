@@ -23,7 +23,7 @@ class HomeInteractor {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().create(APIServices::class.java)
 
-        retrofit.getUser(Constants.NUMBER_OF_USERS)
+        retrofit.getUser(Constants.NUMBER_OF_USERS.toString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(callBack::setUsersData, callBack::showMessage)
