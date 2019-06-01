@@ -12,5 +12,5 @@ import retrofit2.http.Query
 interface APIServices {
 
     @GET("api/?")
-    fun getUser(@Query("results") results: String): Observable<UsersResponse>
+    fun getUser(@Query("results") results: Int): Observable<UsersResponse>
 }
